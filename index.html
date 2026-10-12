@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101b35">
+<meta name="description" content="Offline Samman Diwas event manager for student registrations, teams, attendance, rehearsals and announcements.">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png">
+<title>Samman Diwas Manager</title>
+<style>
+:root{--bg:#0b1224;--panel:#121e38;--panel2:#182747;--line:#2b3b5f;--text:#f4f7ff;--muted:#aab8d5;--saffron:#ff9b42;--green:#55d6a3;--red:#ff7777;--blue:#86b7ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1a2b4d 0,#0b1224 60%);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+header{padding:22px 16px 16px;max-width:1100px;margin:auto}.brand{display:flex;gap:12px;align-items:center}.logo{width:54px;height:54px;border-radius:16px;background:linear-gradient(145deg,#ffb05e,#ef6b35);display:grid;place-items:center;font-size:28px;box-shadow:0 8px 24px #ef6b3533}.eyebrow{color:var(--saffron);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase}h1{font-size:clamp(22px,5vw,31px);margin:2px 0 0;line-height:1.1}header p{color:var(--muted);margin:12px 0 0}
+main{max-width:1100px;margin:auto;padding:0 14px 35px}.notice{background:#172744;border:1px solid #334a73;border-radius:14px;padding:12px 14px;color:#d9e5ff;font-size:13px;margin-bottom:14px}.notice strong{color:#ffd09c}
+nav{display:flex;gap:8px;overflow:auto;padding:4px 0 12px;scrollbar-width:thin}.tab{flex:0 0 auto;background:#172440;border:1px solid var(--line);color:#dce6ff;border-radius:11px;padding:10px 13px;font-weight:700}.tab.active{background:var(--saffron);border-color:var(--saffron);color:#211407}
+.page{display:none}.page.active{display:block}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.stat,.card{background:linear-gradient(160deg,#172542,#111b32);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:12px;min-width:0}.stat .num{font-size:29px;font-weight:850;letter-spacing:-1px}.stat .label{color:var(--muted);font-size:12px}.card h2{font-size:18px;margin:0 0 12px}.card h3{font-size:15px;margin:0 0 8px}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.row>*{flex:1;min-width:120px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.btn{border:0;border-radius:10px;padding:11px 13px;font-weight:750;background:var(--saffron);color:#241607;cursor:pointer}.btn.secondary{background:#243657;color:#eef4ff;border:1px solid #3b527b}.btn.good{background:#1d775d;color:#fff}.btn.danger{background:#742e3c;color:#fff}.btn.small{padding:7px 9px;font-size:12px}label{display:block;color:#c9d6f0;font-size:12px;font-weight:700;margin:9px 0 5px}input,select,textarea{width:100%;background:#0c162b;border:1px solid #344969;color:white;border-radius:10px;padding:11px 12px;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--saffron)}textarea{min-height:85px;resize:vertical}.muted{color:var(--muted);font-size:13px}.list{display:grid;gap:9px}.item{background:#101a30;border:1px solid #293a5b;border-radius:12px;padding:12px;display:flex;gap:10px;align-items:flex-start;justify-content:space-between}.item strong{display:block}.item .meta{font-size:12px;color:var(--muted);margin-top:3px}.item .itemactions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.pill{display:inline-block;border-radius:100px;padding:3px 8px;font-size:11px;font-weight:800;background:#263d60;color:#cde0ff}.pill.green{background:#174d40;color:#a8f4d7}.pill.orange{background:#573b20;color:#ffd2a1}.empty{padding:18px;text-align:center;color:var(--muted);border:1px dashed #35496b;border-radius:12px}.checkline{display:flex;align-items:center;gap:8px}.checkline input{width:auto}.sectionhead{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:4px 0 12px}.sectionhead h2{margin:0;font-size:19px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:9px;border-bottom:1px solid #2a3b5c;white-space:nowrap}th{color:#ffbd7a}footer{text-align:center;color:#8192b4;font-size:12px;padding:12px}
+#lockscreen{position:fixed;inset:0;background:#0b1224;z-index:10;display:grid;place-items:center;padding:20px}#lockscreen.hidden{display:none}.lockbox{width:min(100%,380px);padding:24px;border:1px solid var(--line);border-radius:20px;background:#14213c}.lockbox h2{margin-top:0}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#f5f7ff;color:#14213c;padding:11px 16px;border-radius:12px;box-shadow:0 8px 30px #0008;z-index:20;font-weight:700;display:none;max-width:90%;text-align:center}
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stat{padding:12px}.stat .num{font-size:25px}.item{flex-direction:column}.item .itemactions{justify-content:flex-start}.sectionhead{align-items:flex-start;flex-direction:column}.row>*{min-width:100%}}
+</style>
+</head>
+<body>
+<div id="lockscreen">
+  <div class="lockbox">
+    <div class="logo" style="margin-bottom:14px">🇮🇳</div>
+    <div class="eyebrow">School event workspace</div>
+    <h2>Samman Diwas Manager</h2>
+    <p class="muted">Enter the local app PIN to continue. Default PIN: <b>2468</b>. Change it in Settings after opening.</p>
+    <label for="pinInput">App PIN</label><input id="pinInput" type="password" inputmode="numeric" autocomplete="current-password" placeholder="Enter PIN">
+    <div class="actions"><button class="btn" id="unlockBtn">Unlock app</button></div>
+    <p class="muted">This PIN only locks this device; it is not an online account.</p>
+  </div>
+</div>
+<header>
+  <div class="brand"><div class="logo">🇮🇳</div><div><div class="eyebrow">Remember • Honour • Inspire</div><h1>Samman Diwas Manager</h1></div></div>
+  <p>Offline event management for registrations, teams, attendance and rehearsals.</p>
+</header>
+<main>
+  <div class="notice"><strong>Offline mode:</strong> records are saved on this device only. Export a backup regularly. Do not enter sensitive student details unless the school has approved this app.</div>
+  <nav id="tabs">
+    <button class="tab active" data-page="dashboard">Dashboard</button><button class="tab" data-page="students">Students</button><button class="tab" data-page="teams">Teams</button><button class="tab" data-page="attendance">Attendance</button><button class="tab" data-page="schedule">Rehearsals</button><button class="tab" data-page="program">Program Order</button><button class="tab" data-page="announcements">Announcements</button><button class="tab" data-page="settings">Settings & Backup</button>
+  </nav>
+  <section class="page active" id="dashboard">
+    <div class="grid">
+      <div class="stat"><div class="num" id="statStudents">0</div><div class="label">Registered students</div></div>
+      <div class="stat"><div class="num" id="statTeams">0</div><div class="label">Teams / performances</div></div>
+      <div class="stat"><div class="num" id="statPresent">0</div><div class="label">Present today</div></div>
+      <div class="stat"><div class="num" id="statTasks">0</div><div class="label">Upcoming rehearsals</div></div>
+    </div>
+    <div class="card"><h2>Quick actions</h2><div class="actions"><button class="btn" data-goto="students">＋ Add student</button><button class="btn secondary" data-goto="attendance">Mark attendance</button><button class="btn secondary" data-goto="schedule">Add rehearsal</button><button class="btn secondary" data-goto="program">Program order</button></div></div>
+    <div class="card"><h2>Upcoming rehearsals</h2><div id="dashSchedule" class="list"></div></div>
+    <div class="card"><h2>Latest announcements</h2><div id="dashAnnouncements" class="list"></div></div>
+  </section>
+  <section class="page" id="students">
+    <div class="card"><h2>Add student registration</h2><form id="studentForm">
+      <div class="row"><div><label>Student full name *</label><input name="name" required maxlength="100" placeholder="Student name"></div><div><label>Class / Section *</label><input name="className" required maxlength="30" placeholder="e.g. 9-A"></div></div>
+      <div class="row"><div><label>Roll number</label><input name="roll" maxlength="30" placeholder="Roll no."></div><div><label>Team / performance</label><select name="teamId" id="studentTeam"><option value="">Not assigned</option></select></div></div>
+      <div class="row"><div><label>Performance / talent</label><input name="talent" maxlength="100" placeholder="e.g. poem, dance, speech"></div><div><label>Teacher in charge</label><input name="teacher" maxlength="100" placeholder="Teacher name"></div></div>
+      <label>Notes (optional)</label><textarea name="notes" maxlength="500" placeholder="Only necessary event notes"></textarea>
+      <div class="actions"><button class="btn" type="submit">Save student</button><button class="btn secondary" type="reset">Clear form</button></div>
+    </form></div>
+    <div class="card"><div class="sectionhead"><h2>Student register</h2><div style="min-width:180px;flex:1"><input id="studentSearch" placeholder="Search name, class, roll..."></div></div><div id="studentList" class="list"></div></div>
+  </section>
+  <section class="page" id="teams">
+    <div class="card"><h2>Create team / performance</h2><form id="teamForm"><div class="row"><div><label>Team / performance name *</label><input name="name" required maxlength="100" placeholder="e.g. Patriotic Choir"></div><div><label>Category</label><select name="category"><option>Song</option><option>Dance</option><option>Speech</option><option>Drama</option><option>Poem</option><option>March-past</option><option>Other</option></select></div></div><div class="row"><div><label>Teacher in charge</label><input name="teacher" maxlength="100"></div><div><label>Venue</label><input name="venue" maxlength="100" placeholder="Hall / ground"></div></div><label>Notes</label><textarea name="notes" maxlength="400"></textarea><div class="actions"><button class="btn" type="submit">Create team</button></div></form></div>
+    <div class="card"><h2>Teams and performances</h2><div id="teamList" class="list"></div></div>
+  </section>
+  <section class="page" id="attendance">
+    <div class="card"><h2>Daily attendance</h2><div class="row"><div><label>Date</label><input type="date" id="attendanceDate"></div><div><label>Filter by class</label><input id="attendanceClass" placeholder="Leave blank for all"></div></div><p class="muted">Select Present for students who have arrived. Changes save on this device.</p><div id="attendanceList" class="list"></div><div class="actions"><button class="btn secondary" id="exportAttendance">Export attendance CSV</button></div></div>
+  </section>
+  <section class="page" id="schedule">
+    <div class="card"><h2>Add rehearsal / event schedule</h2><form id="scheduleForm"><div class="row"><div><label>Activity *</label><input name="title" required maxlength="100" placeholder="e.g. Choir rehearsal"></div><div><label>Team</label><select name="teamId" id="scheduleTeam"><option value="">All / general</option></select></div></div><div class="row"><div><label>Date *</label><input type="date" name="date" required></div><div><label>Time</label><input type="time" name="time"></div></div><div class="row"><div><label>Venue</label><input name="venue" maxlength="100"></div><div><label>Teacher in charge</label><input name="teacher" maxlength="100"></div></div><label>Instructions</label><textarea name="notes" maxlength="400"></textarea><div class="actions"><button class="btn" type="submit">Save schedule</button></div></form></div>
+    <div class="card"><h2>Rehearsal schedule</h2><div id="scheduleList" class="list"></div></div>
+  </section>
+  <section class="page" id="program">
+    <div class="card"><h2>Add program item</h2><form id="programForm"><div class="row"><div><label>Program item *</label><input name="title" required maxlength="100" placeholder="e.g. Welcome address"></div><div><label>Team / performer</label><select name="teamId" id="programTeam"><option value="">General</option></select></div></div><div class="row"><div><label>Order number *</label><input name="order" type="number" min="1" required value="1"></div><div><label>Estimated duration (minutes)</label><input name="duration" type="number" min="0" max="300" value="5"></div></div><label>Notes</label><textarea name="notes" maxlength="300"></textarea><div class="actions"><button class="btn" type="submit">Add to program</button></div></form></div>
+    <div class="card"><h2>Running order</h2><p class="muted">Use the arrows to move an item up or down.</p><div id="programList" class="list"></div></div>
+  </section>
+  <section class="page" id="announcements">
+    <div class="card"><h2>Post announcement</h2><form id="announcementForm"><label>Announcement *</label><textarea name="message" required maxlength="800" placeholder="Write a clear instruction or update"></textarea><div class="row"><div><label>Added by</label><input name="author" maxlength="80" placeholder="Teacher name"></div><div><label>Audience</label><select name="audience"><option>All teachers</option><option>Students</option><option>Specific team</option></select></div></div><div class="actions"><button class="btn" type="submit">Publish announcement</button></div></form><p class="muted">This is a local notice board, not a live broadcast. Share messages through WhatsApp separately if needed.</p></div>
+    <div class="card"><h2>Announcement board</h2><div id="announcementList" class="list"></div></div>
+  </section>
+  <section class="page" id="settings">
+    <div class="card"><h2>Backup & restore</h2><p class="muted">Export a JSON backup before changing phones or clearing browser data. Restore replaces the records currently stored on this device.</p><div class="actions"><button class="btn" id="backupBtn">Download full backup</button><label class="btn secondary" style="display:inline-flex;align-items:center;justify-content:center;cursor:pointer">Restore backup<input id="restoreInput" type="file" accept="application/json,.json" hidden></label><button class="btn secondary" id="exportStudents">Export students CSV</button></div></div>
+    <div class="card"><h2>Change app PIN</h2><form id="pinForm"><label>Current PIN</label><input name="oldPin" type="password" inputmode="numeric" required><div class="row"><div><label>New PIN (4–12 digits)</label><input name="newPin" type="password" inputmode="numeric" pattern="[0-9]{4,12}" required></div><div><label>Confirm new PIN</label><input name="confirmPin" type="password" inputmode="numeric" pattern="[0-9]{4,12}" required></div></div><div class="actions"><button class="btn" type="submit">Update PIN</button><button class="btn secondary" id="lockNow" type="button">Lock app now</button></div></form></div>
+    <div class="card"><h2>Data & privacy</h2><p class="muted">This app stores records in this browser on this device. The PIN is a simple local screen lock, not strong account security. Anyone with access to the unlocked device/browser may access records. Use school-approved devices and keep backups in a secure location.</p><div class="actions"><button class="btn danger" id="clearData">Clear all app data</button></div></div>
+    <div class="card"><h2>About</h2><p class="muted">Samman Diwas Manager • Offline PWA • Local-only edition</p><p class="muted">Install using your browser’s menu → Add to Home screen / Install app. For offline support, first open the hosted site online once so its files can be cached.</p></div>
+  </section>
+  <footer>Made for responsible school event coordination • Offline local storage</footer>
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script>
+const KEY='samman_diwas_offline_v1', PINKEY='samman_diwas_pin_v1';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const today=()=>new Date().toLocaleDateString('en-CA');
+let db=loadDB();
+function blank(){return {students:[],teams:[],attendance:{},schedule:[],program:[],announcements:[]}}
+function loadDB(){try{return {...blank(),...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{return blank()}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
+function id(){return (crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2))}
+function esc(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(s){let t=$('#toast');t.textContent=s;t.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.style.display='none',2600)}
+function teamName(tid){return db.teams.find(t=>t.id===tid)?.name||'Not assigned'}
+function go(page){$$('.page').forEach(p=>p.classList.toggle('active',p.id===page));$$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.page===page));if(page==='attendance')renderAttendance();window.scrollTo({top:0,behavior:'smooth'})}
+$('#tabs').addEventListener('click',e=>{let b=e.target.closest('[data-page]');if(b)go(b.dataset.page)});
+document.addEventListener('click',e=>{let b=e.target.closest('[data-goto]');if(b)go(b.dataset.goto)});
+function fillTeamSelects(){const options=db.teams.map(t=>`<option value="${esc(t.id)}">${esc(t.name)}</option>`).join('');['studentTeam','scheduleTeam','programTeam'].forEach((sid,i)=>{let el=$('#'+sid),val=el.value;el.innerHTML=(i===0?'<option value="">Not assigned</option>':'<option value="">All / general</option>')+options;if([...el.options].some(o=>o.value===val))el.value=val})}
+function empty(msg){return `<div class="empty">${esc(msg)}</div>`}
+function item(title,meta,actions='',tag=''){return `<div class="item"><div><strong>${esc(title)}</strong><div class="meta">${esc(meta||'')}</div>${tag?`<div style="margin-top:7px">${tag}</div>`:''}</div><div class="itemactions">${actions}</div></div>`}
+function renderAll(){fillTeamSelects();renderDashboard();renderStudents();renderTeams();renderAttendance();renderSchedule();renderProgram();renderAnnouncements()}
+function renderDashboard(){
+$('#statStudents').textContent=db.students.length;$('#statTeams').textContent=db.teams.length;$('#statPresent').textContent=Object.values(db.attendance[today()]||{}).filter(Boolean).length;
+$('#statTasks').textContent=db.schedule.filter(s=>s.date>=today()).length;
+let next=[...db.schedule].filter(s=>s.date>=today()).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).slice(0,4);
+$('#dashSchedule').innerHTML=next.length?next.map(s=>item(s.title,`${s.date} ${s.time||''} • ${teamName(s.teamId)} • ${s.venue||'Venue not set'}`, '', '<span class="pill orange">Upcoming</span>')).join(''):empty('No upcoming rehearsals yet.');
+let anns=[...db.announcements].sort((a,b)=>b.created-a.created).slice(0,3);
+$('#dashAnnouncements').innerHTML=anns.length?anns.map(a=>item(a.message,`By ${a.author||'Teacher'} • ${new Date(a.created).toLocaleString()}`, '', `<span class="pill">${esc(a.audience)}</span>`)).join(''):empty('No announcements yet.');
+}
+function renderStudents(){let q=($('#studentSearch')?.value||'').toLowerCase();let list=db.students.filter(s=>[s.name,s.className,s.roll,s.talent].join(' ').toLowerCase().includes(q));$('#studentList').innerHTML=list.length?list.map(s=>item(s.name,`Class ${s.className}${s.roll?' • Roll '+s.roll:''} • ${s.talent||'No performance specified'} • ${teamName(s.teamId)}`,`<button class="btn small secondary" data-edit-student="${s.id}">Edit</button><button class="btn small danger" data-del-student="${s.id}">Delete</button>`)).join(''):empty('No students found. Add a registration above.')}
+function renderTeams(){$('#teamList').innerHTML=db.teams.length?db.teams.map(t=>{let count=db.students.filter(s=>s.teamId===t.id).length;return item(t.name,`${t.category} • ${t.teacher||'No teacher assigned'} • ${t.venue||'Venue not set'} • ${count} students`,`<button class="btn small secondary" data-edit-team="${t.id}">Edit</button><button class="btn small danger" data-del-team="${t.id}">Delete</button>`)}).join(''):empty('No teams yet. Create a team or performance above.')}
+function renderAttendance(){if(!$('#attendanceDate').value)$('#attendanceDate').value=today();let date=$('#attendanceDate').value||today(),q=($('#attendanceClass').value||'').toLowerCase();let students=db.students.filter(s=>!q||s.className.toLowerCase().includes(q));let rec=db.attendance[date]||{};$('#attendanceList').innerHTML=students.length?students.map(s=>`<div class="item"><div><strong>${esc(s.name)}</strong><div class="meta">Class ${esc(s.className)}${s.roll?' • Roll '+esc(s.roll):''}</div></div><label class="checkline" style="margin:0"><input type="checkbox" data-attendance="${s.id}" ${rec[s.id]?'checked':''}> Present</label></div>`).join(''):empty('No students match this filter.')}
+function renderSchedule(){let arr=[...db.schedule].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));$('#scheduleList').innerHTML=arr.length?arr.map(s=>item(s.title,`${s.date} ${s.time||''} • ${teamName(s.teamId)} • ${s.venue||'Venue not set'} • ${s.teacher||'No teacher'}`,`<button class="btn small danger" data-del-schedule="${s.id}">Delete</button>`)).join(''):empty('No rehearsals scheduled.')}
+function renderProgram(){let arr=[...db.program].sort((a,b)=>a.order-b.order);$('#programList').innerHTML=arr.length?arr.map((p,i)=>item(`${p.order}. ${p.title}`,`${teamName(p.teamId)} • ${p.duration||0} min${p.notes?' • '+p.notes:''}`,`<button class="btn small secondary" data-move-program="${p.id}" data-dir="-1" ${i===0?'disabled':''}>↑</button><button class="btn small secondary" data-move-program="${p.id}" data-dir="1" ${i===arr.length-1?'disabled':''}>↓</button><button class="btn small danger" data-del-program="${p.id}">Delete</button>`)).join(''):empty('Program order is empty.')}
+function renderAnnouncements(){$('#announcementList').innerHTML=db.announcements.length?[...db.announcements].sort((a,b)=>b.created-a.created).map(a=>item(a.message,`By ${a.author||'Teacher'} • ${new Date(a.created).toLocaleString()} • ${a.audience}`,`<button class="btn small secondary" data-share="${a.id}">Share</button><button class="btn small danger" data-del-ann="${a.id}">Delete</button>`)).join(''):empty('No announcements published.')}
+$('#studentForm').addEventListener('submit',e=>{e.preventDefault();let f=new FormData(e.target),s={id:id(),name:f.get('name').trim(),className:f.get('className').trim(),roll:f.get('roll').trim(),teamId:f.get('teamId'),talent:f.get('talent').trim(),teacher:f.get('teacher').trim(),notes:f.get('notes').trim(),created:Date.now()};if(!s.name||!s.className)return;db.students.push(s);e.target.reset();save();toast('Student saved on this device.')});
+$('#teamForm').addEventListener('submit',e=>{e.preventDefault();let f=new FormData(e.target);db.teams.push({id:id(),name:f.get('name').trim(),category:f.get('category'),teacher:f.get('teacher').trim(),venue:f.get('venue').trim(),notes:f.get('notes').trim()});e.target.reset();save();toast('Team created.')});
+$('#scheduleForm').addEventListener('submit',e=>{e.preventDefault();let f=new FormData(e.target);db.schedule.push({id:id(),title:f.get('title').trim(),teamId:f.get('teamId'),date:f.get('date'),time:f.get('time'),venue:f.get('venue').trim(),teacher:f.get('teacher').trim(),notes:f.get('notes').trim()});e.target.reset();save();toast('Schedule saved.')});
+$('#programForm').addEventListener('submit',e=>{e.preventDefault();let f=new FormData(e.target);db.program.push({id:id(),title:f.get('title').trim(),teamId:f.get('teamId'),order:+f.get('order'),duration:+f.get('duration'),notes:f.get('notes').trim()});e.target.reset();save();toast('Program item added.')});
+$('#announcementForm').addEventListener('submit',e=>{e.preventDefault();let f=new FormData(e.target);db.announcements.push({id:id(),message:f.get('message').trim(),author:f.get('author').trim(),audience:f.get('audience'),created:Date.now()});e.target.reset();save();toast('Announcement saved locally.')});
+$('#studentSearch').addEventListener('input',renderStudents);$('#attendanceDate').addEventListener('change',renderAttendance);$('#attendanceClass').addEventListener('input',renderAttendance);
+$('#attendanceList').addEventListener('change',e=>{let s=e.target.dataset.attendance;if(!s)return;let d=$('#attendanceDate').value||today();db.attendance[d] ||= {};db.attendance[d][s]=e.target.checked;save()});
+document.body.addEventListener('click',e=>{
+let b=e.target.closest('button');if(!b)return;
+if(b.dataset.delStudent){if(confirm('Delete this student registration?')){db.students=db.students.filter(x=>x.id!==b.dataset.delStudent);Object.values(db.attendance).forEach(d=>delete d[b.dataset.delStudent]);save();toast('Student deleted.')}} 
+if(b.dataset.editStudent){let s=db.students.find(x=>x.id===b.dataset.editStudent);if(!s)return;let name=prompt('Student full name',s.name);if(name===null)return;let cls=prompt('Class / Section',s.className);if(cls===null)return;s.name=name.trim();s.className=cls.trim();s.roll=prompt('Roll number',s.roll)||'';s.talent=prompt('Performance / talent',s.talent)||'';save();toast('Student updated.')}
+if(b.dataset.delTeam){let t=db.teams.find(x=>x.id===b.dataset.delTeam);if(t&&confirm(`Delete "${t.name}"? Students already assigned will become unassigned.`)){db.teams=db.teams.filter(x=>x.id!==t.id);db.students.forEach(s=>{if(s.teamId===t.id)s.teamId='' });save()}}
+if(b.dataset.editTeam){let t=db.teams.find(x=>x.id===b.dataset.editTeam);if(t){let n=prompt('Team name',t.name);if(n!==null&&n.trim()){t.name=n.trim();t.teacher=prompt('Teacher in charge',t.teacher)||'';save()}}}
+if(b.dataset.delSchedule){if(confirm('Delete this schedule item?')){db.schedule=db.schedule.filter(x=>x.id!==b.dataset.delSchedule);save()}}
+if(b.dataset.delProgram){db.program=db.program.filter(x=>x.id!==b.dataset.delProgram);save()}
+if(b.dataset.moveProgram){let arr=[...db.program].sort((a,b)=>a.order-b.order),i=arr.findIndex(x=>x.id===b.dataset.moveProgram),j=i+Number(b.dataset.dir);if(arr[j]){let temp=arr[i].order;arr[i].order=arr[j].order;arr[j].order=temp;save()}}
+if(b.dataset.delAnn){db.announcements=db.announcements.filter(x=>x.id!==b.dataset.delAnn);save()}
+if(b.dataset.share){let a=db.announcements.find(x=>x.id===b.dataset.share);if(a){let msg=`Samman Diwas announcement\n${a.message}\n— ${a.author||'Teacher'}`;window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank','noopener')}}
+});
+function download(name,content,type='application/json'){let blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+$('#backupBtn').addEventListener('click',()=>download(`samman-diwas-backup-${today()}.json`,JSON.stringify({app:'Samman Diwas Manager',version:1,exportedAt:new Date().toISOString(),data:db},null,2)));
+$('#restoreInput').addEventListener('change',async e=>{let f=e.target.files[0];if(!f)return;try{let obj=JSON.parse(await f.text()),data=obj.data||obj;if(!data||!Array.isArray(data.students)||!Array.isArray(data.teams)||!Array.isArray(data.schedule)||!Array.isArray(data.program)||!Array.isArray(data.announcements))throw Error('Invalid backup format');if(confirm('Restore backup? This replaces all records currently on this device.')){db={...blank(),...data};save();toast('Backup restored.')}}catch(err){alert('Could not restore this file. Choose a backup exported by this app.')}e.target.value=''});
+function csv(rows){return rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n')}
+$('#exportStudents').addEventListener('click',()=>download('samman-diwas-students.csv',csv([['Name','Class','Roll','Team','Performance','Teacher','Notes'],...db.students.map(s=>[s.name,s.className,s.roll,teamName(s.teamId),s.talent,s.teacher,s.notes])]),'text/csv;charset=utf-8'));
+$('#exportAttendance').addEventListener('click',()=>{let d=$('#attendanceDate').value||today(),rec=db.attendance[d]||{};download(`attendance-${d}.csv`,csv([['Date','Student','Class','Roll','Status'],...db.students.map(s=>[d,s.name,s.className,s.roll,rec[s.id]?'Present':'Not marked'])]),'text/csv;charset=utf-8')});
+$('#pinForm').addEventListener('submit',e=>{e.preventDefault();let f=new FormData(e.target),old=localStorage.getItem(PINKEY)||'2468';if(f.get('oldPin')!==old)return alert('Current PIN is incorrect.');if(f.get('newPin')!==f.get('confirmPin'))return alert('New PINs do not match.');localStorage.setItem(PINKEY,f.get('newPin'));e.target.reset();toast('PIN changed.')});
+function lock(){ $('#lockscreen').classList.remove('hidden');$('#pinInput').value='';$('#pinInput').focus() }
+$('#lockNow').addEventListener('click',lock);$('#unlockBtn').addEventListener('click',()=>{if($('#pinInput').value===(localStorage.getItem(PINKEY)||'2468')){$('#lockscreen').classList.add('hidden');toast('App unlocked.')}else toast('Incorrect PIN.')});
+$('#pinInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('#unlockBtn').click()});
+$('#clearData').addEventListener('click',()=>{if(confirm('Delete ALL students, teams, attendance, schedules, program items and announcements from this device? Export a backup first if needed.')){db=blank();save();toast('All app records cleared.')}});
+$('#attendanceDate').value=today();
+renderAll();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js', {scope: './'}).catch(()=>{}));
+</script>
+</body></html>
